@@ -2,7 +2,7 @@
 
 面向高校项目团队的项目材料 AI 质检与评审工具。
 
-[在线体验](https://hiseeu-yomiiii.github.io/verity/) · [作品集主页](https://hiseeu-yomiiii.github.io/portfolio/)
+[在线体验](https://cyrilla-mist.github.io/verity/) · [作品集主页](https://cyrilla-mist.github.io/portfolio/)
 
 ## 项目简介
 
