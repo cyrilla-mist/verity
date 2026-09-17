@@ -1,56 +1,55 @@
-# 衡准 · Verity
+# Verity
 
-面向高校项目团队的项目材料 AI 质检与评审工具。
+AI-assisted pre-submission review for project materials.
 
-[在线体验](https://cyrilla-mist.github.io/verity/) · [作品集主页](https://cyrilla-mist.github.io/portfolio/)
+[Live demo](https://cyrilla-mist.github.io/verity/) · [Portfolio](https://cyrilla-mist.github.io/portfolio/)
 
-## 项目简介
+## Overview
 
-衡准 Verity 用于在项目材料提交或展示前进行结构化质检。系统先读取项目简介和上传材料，整理项目背景、目标用户、解决方案、技术路线与已有成果，再从证据、创新、用户价值、技术可信度和表达完整度等方面模拟评审。
+Verity helps project teams inspect materials before submission or presentation. It first builds a structured understanding of the project, then checks evidence coverage, likely reviewer concerns, scoring dimensions, and revision priorities.
 
-产品核心链路为：
+The product is designed to make AI review more inspectable than a single free-form score or generic paragraph of feedback.
 
-**提交材料 → 理解项目 → 检查证据 → 模拟评审 → 生成修改行动**
+## Core Flow
 
-## 核心功能
+```text
+Submit material
+  → Build project understanding
+  → Inspect evidence coverage
+  → Simulate structured review
+  → Generate prioritized revision actions
+```
 
-- **材料输入**：支持直接填写项目简介，也可以上传 DOCX 或 TXT 文件。
-- **浏览器端解析**：在前端提取 DOCX/TXT 文本后提交分析。
-- **项目理解摘要**：整理项目名称、领域、核心问题、目标用户、解决方案、技术路线、已有成果和关键缺口。
-- **材料理解摘要**：区分已识别证据与尚未体现的关键信息。
-- **证据覆盖度**：依据固定证据类别展示已有证据和待补充项。
-- **五维评分**：分析创新性、用户价值、技术可信度、商业或推广价值及表达完整度。
-- **证据完整度分析**：识别数据来源、调研结果、绝对化表达和成果依据等风险。
-- **核心风险与评委追问**：说明问题、影响与建议准备方向。
-- **S/A/B 行动清单**：按照修改优先级整理问题、原因和下一步行动。
-- **优化建议与示例改写**：在不新增未经材料支持事实的前提下优化表达。
-- **复制完整报告**：将项目名称、评分、证据、风险、追问和行动建议整理为可复制文本。
-- **响应式界面**：支持桌面端、移动端和日夜主题。
+## Features
 
-> 当前支持 DOCX 和 TXT，暂不支持 PDF。
+- **Material input** — enter a project summary directly or upload DOCX / TXT files.
+- **Browser-side parsing** — extracts DOCX / TXT text before analysis.
+- **Project understanding** — summarizes the problem, target users, solution, technical route, current evidence, and major gaps.
+- **Evidence coverage** — separates recognized evidence from missing information.
+- **Five review dimensions** — evaluates innovation, user value, technical credibility, business or adoption value, and presentation completeness.
+- **Evidence-risk analysis** — flags unsupported numbers, weak sourcing, absolute claims, and missing outcome evidence.
+- **Likely reviewer questions** — surfaces questions a team should be prepared to answer.
+- **S / A / B action list** — groups revision work by priority.
+- **Example rewrites** — improves wording without intentionally adding unsupported facts.
+- **Report copy** — exports the structured result as copyable text.
+- **Responsive UI** — supports desktop, mobile, light, and dark themes.
 
-## 使用方式
+> Current file support: **DOCX and TXT**. PDF is not supported in this release.
 
-1. 选择项目类型并填写项目名称。
-2. 上传 DOCX/TXT 材料，或直接输入项目简介。
-3. 按需补充项目背景、用户、方案、创新点、成果、技术路线和数据依据。
-4. 点击“开始 AI 质检”。
-5. 查看项目理解、评分、风险、追问和行动清单。
-6. 使用“复制完整报告”保存结果，并结合真实材料人工复核。
+## Consistency Rules
 
-## 报告一致性机制
+Verity does not rely only on model-generated summary numbers. Several output constraints are normalized in code:
 
-Verity 不直接采用模型自报的汇总数字，而是在程序中统一计算：
+- the overall score is derived from the five dimension scores;
+- score bands follow fixed mappings;
+- risk, question, and action counts are derived from actual returned items;
+- evidence coverage is calculated from covered and missing evidence categories;
+- dimension scores are restricted to fixed ranges;
+- prompt rules prohibit unsupported additions such as fabricated data, results, algorithms, partnerships, business models, or product features.
 
-- 综合分由五个维度分数相加得到。
-- 竞争力等级根据综合分固定映射。
-- 风险数、追问数和修改建议数根据实际条目计算。
-- 证据覆盖度根据已覆盖与缺失的证据类别计算。
-- 维度分数统一限制在 0–20 分，并使用固定等级区间。
+These rules do not make the review objective, but they reduce avoidable inconsistency between the narrative and displayed report structure.
 
-仓库中的评审 Prompt 还包含事实安全与非编造规则，限制模型擅自增加材料中没有的数据、成果、算法、合作关系、商业模式或产品功能。
-
-## 技术实现
+## Technology
 
 - HTML
 - CSS
@@ -59,37 +58,44 @@ Verity 不直接采用模型自报的汇总数字，而是在程序中统一计�
 - DeepSeek API
 - GitHub Pages
 
-前端使用原生 HTML、CSS 和 JavaScript 构建。材料文本由前端整理后，通过 Cloudflare Worker 发送至模型服务。API Key 保存在 Worker 环境变量中，不写入前端代码。
+The frontend prepares the material and sends it through a Cloudflare Worker. API credentials remain on the server-side boundary rather than in the public frontend.
 
-## 项目结构
+## Repository Structure
 
 ```text
-index.html              页面结构
-css/style.css           页面样式与响应式布局
-js/app.js               表单、文件解析、请求与报告归一化
-js/data.js              演示数据
-js/render.js            报告渲染
-js/vendor/              DOCX 解压依赖
-worker/index.js         Worker 请求与结果规范化
-worker/prompt.js        评审标准、JSON Schema 与事实安全规则
+index.html              Page structure
+css/style.css           Styling and responsive layout
+js/app.js               Input, file parsing, requests, and report normalization
+js/data.js              Demo data
+js/render.js            Report rendering
+js/vendor/              DOCX parsing dependency
+worker/index.js         Worker request and response normalization
+worker/prompt.js        Review rules, schema, and factual-safety constraints
 ```
 
-## 数据与结果说明
+## Usage
 
-- 用户输入和解析后的材料文本会发送至模型服务完成分析。
-- 请勿上传身份证号、联系方式、未公开数据或其他敏感信息。
-- AI 输出仅用于辅助发现材料问题，不代表真实评审结果。
-- 涉及事实、数据、成果和重要判断的内容需要人工核实。
-- 评分适合观察当前材料的完整程度和改进方向，不应作为权威评级。
+1. Choose the project type and enter a project name.
+2. Upload DOCX / TXT material or enter the project summary manually.
+3. Add optional context such as users, solution, innovation, results, technical route, or evidence.
+4. Run the review.
+5. Inspect the project summary, evidence coverage, risks, reviewer questions, and prioritized actions.
+6. Verify all consequential facts and decide which recommendations to adopt.
 
-## 当前版本
+## Limitations
 
-当前代码版本：**v0.4.7**
+Verity is a review aid, not an authoritative scoring system. It cannot predict a real competition result or replace expert review.
 
-本版本已经完成材料解析、项目理解、证据覆盖度、结构化评审、完整报告复制，以及分数、等级和条目数量的一致性处理。
+AI-generated interpretation remains probabilistic. Facts, data, claimed outcomes, and other consequential statements should be checked against the source material before use.
 
-## 作者
+Do not upload personal identifiers, confidential research data, or other sensitive information.
+
+## Version
+
+Current public code version: **v0.4.7**
+
+## Author
 
 Cyrilla
 
-© 2026 Cyrilla Web
+© 2026 Cyrilla
