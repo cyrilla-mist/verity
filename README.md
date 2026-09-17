@@ -2,7 +2,18 @@
 
 AI-assisted pre-submission review for project materials.
 
-[Live demo](https://cyrilla-mist.github.io/verity/) · [Portfolio](https://cyrilla-mist.github.io/portfolio/)
+[Live demo](https://cyrilla-mist.github.io/verity/) · [Portfolio](https://cyrilla-mist.github.io/portfolio/) · [Nexus Atlas](https://github.com/cyrilla-mist/nexus-ai)
+
+## Project Status
+
+- **Current public code:** `v0.4.7`
+- **Repository role:** maintained standalone capability / product asset
+- **Development mode:** stable maintenance rather than active feature expansion
+- **Nexus relationship:** Verity is the most developed reference project used by Nexus Atlas for project re-entry, continuity, evidence, and governed-asset scenarios.
+
+Verity remains independent because its review workflow, Worker boundary, report normalization, and source-material handling are useful on their own. It is not grouped with the smaller legacy single-page experiments.
+
+The Nexus relationship does not mean Nexus owns Verity's source code or that every Nexus integration is part of the public Verity app. Nexus uses Verity as a concrete project context for continuity work.
 
 ## Overview
 
@@ -90,9 +101,15 @@ AI-generated interpretation remains probabilistic. Facts, data, claimed outcomes
 
 Do not upload personal identifiers, confidential research data, or other sensitive information.
 
-## Version
+## Maintenance Direction
 
-Current public code version: **v0.4.7**
+Future maintenance should prioritize reliability over feature count:
+
+- preserve report consistency and factual-safety rules;
+- keep the Worker / frontend credential boundary intact;
+- repair parsing or rendering regressions when needed;
+- avoid expanding into a generic all-purpose reviewer unless there is a clear product reason;
+- keep Nexus-specific continuity experiments in Nexus rather than coupling them into the standalone Verity frontend.
 
 ## Author
 
